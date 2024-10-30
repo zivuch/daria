@@ -7,10 +7,10 @@ function App() {
   const [name, setName] = useState('');
   // const BASE_URL:string = 'http://localhost:3001';
   const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
-  
+
   const send = () => {
   if(name){
-    fetch(`/api/${name}`)
+    fetch(`${BASE_URL}/api/${name}`)
       .then((res) => {
         console.log("res", res);
         return res.json();
