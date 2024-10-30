@@ -11,9 +11,9 @@ function App() {
    if(name){
     try {
           const response = await fetch(`${BASE_URL}/api/${name}`);
-          const data = response.json();
+          const data = await response.json();
           console.log(data);
-          
+          setData(data);
     } catch (error) {
       console.log(error);
       
