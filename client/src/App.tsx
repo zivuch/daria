@@ -1,25 +1,34 @@
 import {useState} from "react";
 import "./App.css";
+import { log } from "console";
 
 function App() {
   const [data, setData] = useState('');
   const [name, setName] = useState('');
   // const BASE_URL:string = 'http://localhost:3001';
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  const send = () => {
-    console.log(name);
-    
+  const send = async () => {
    if(name){
-    fetch(`${BASE_URL}/api/${name}`)
-      .then((res) => {
-        console.log("res", res);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("data", data);
-        setData(data.message);
-      })
-      .catch((e) => console.log(e));
+    try {
+          const response = await fetch(`${BASE_URL}/api/${name}`);
+          const data = response.json();
+          console.log(data);
+          
+    } catch (error) {
+      console.log(error);
+      
+    }
+
+    // fetch(`${BASE_URL}/api/${name}`)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("data", data);
+    //     setData(data.message);
+    //   })
+    //   .catch((e) => console.log(e));
     }
   }
 
