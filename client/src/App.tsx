@@ -7,6 +7,8 @@ function App() {
   // const BASE_URL:string = 'http://localhost:3001';
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const send = () => {
+    console.log(name);
+    
    if(name){
     fetch(`${BASE_URL}/api/${name}`)
       .then((res) => {
