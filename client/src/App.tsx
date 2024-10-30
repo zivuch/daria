@@ -1,6 +1,6 @@
 import {useState} from "react";
 import "./App.css";
-import { log } from "console";
+// import { log } from "console";
 
 function App() {
   const [data, setData] = useState('');
@@ -12,7 +12,7 @@ function App() {
     try {
           const response = await fetch(`${BASE_URL}/api/${name}`);
           const data = await response.json();
-          console.log(data);
+          console.log("data", data);
           setData(data);
     } catch (error) {
       console.log(error);
