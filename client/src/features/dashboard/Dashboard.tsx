@@ -1,11 +1,11 @@
-import { useSelectUser} from '../loginRegister/state/hooks'
+// import { useSelectUser} from '../loginRegister/state/hooks'
 import {useNavigate} from 'react-router-dom'
 import axios from "axios";
 import { BASE_URL } from '../../model/baseURL'
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const useSelectUserHook = useSelectUser();
+    // const useSelectUserHook = useSelectUser();
     const user_first_name = localStorage.getItem('user_first_name');
     const user_family_name = localStorage.getItem('user_family_name');
 
