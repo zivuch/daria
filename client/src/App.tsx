@@ -1,37 +1,22 @@
-import {useState} from "react";
 import "./App.css";
-// import { log } from "console";
+import Homepage from "./features/loginRegister/Homepage";
+import Register from "./features/loginRegister/Register";
+import Login from "./features/loginRegister/Login";
+import Dashboard from "./features/dashboard/Dashboard";
+import Auth from "./features/auth/Auth";
+import {Route, Routes} from 'react-router-dom'
 
 function App() {
-  const [data, setData] = useState('');
-  const [name, setName] = useState('');
-  // const BASE_URL:string = 'http://localhost:3001';
-
-
-  const send = () => {
-  if(name){
-    // fetch(`${BASE_URL}/api/${name}`)
-    fetch(`/api/${name}`)
-      .then((res) => {
-        console.log("res", res);
-        return res.json();
-      })
-      .then((data) => {
-        console.log("data", data);
-        setData(data.message);
-      })
-      .catch((e) => console.log(e));
-    }
-  }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>{!data ? "write your name..." : data}</p>
-        <input onChange={(e: React.ChangeEvent<HTMLInputElement>)=>{ setName( e.target.value)}}/>
-        <button onClick={()=>send()}>Send</button>
-      </header>
-    </div>
+    <>
+      <Routes>
+      <Route path='' element={<Homepage/>}/>
+      <Route path='/login' element={<Login />}/>
+      <Route path='/register' element={<Register />}/>
+      <Route path='/dashboard' element={<Auth><Dashboard /></Auth>}/>
+    </Routes>
+    </>
   );
 }
 
