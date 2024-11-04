@@ -1,6 +1,7 @@
 import {Link, useNavigate} from 'react-router-dom'
 import {useRef, useState} from 'react'
 import axios from "axios";
+import { BASE_URL } from '../../model/baseURL'
 
 const Register = () => {
 
@@ -50,10 +51,7 @@ const Register = () => {
         const email = emailRef.current?.value;
         const password= passwordRef.current?.value;
         try {
-            // for development !!!!!!!!!!!!
-            // const response = await axios.post('http://localhost:3001/user/register',
-            // for deployment !!!!!!!!!!!!!!
-            const response = await axios.post('/user/register',  
+            const response = await axios.post(`${BASE_URL}/user/register`,  
                 {
                     first_name, family_name, username, password, email, date_of_birth
                 },

@@ -1,45 +1,36 @@
-import { useSelectUser, useSetUser} from '../loginRegister/state/hooks'
+import { useSelectUser} from '../loginRegister/state/hooks'
 import {useNavigate} from 'react-router-dom'
 import axios from "axios";
-import {UserInterface} from '../../model/user'
+import { BASE_URL } from '../../model/baseURL'
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const useSetUserHook = useSetUser();
     const useSelectUserHook = useSelectUser();
+    const user_first_name = localStorage.getItem('user_first_name');
+    const user_family_name = localStorage.getItem('user_family_name');
 
     const logout = async():Promise<void> => {
         try {
-            // for development !!!!!!!!!!!!
-            // const response = await axios.delete('http://localhost:3001/user/logout',
-            // for deployment !!!!!!!!!!!!!!
-            const response = await axios.post('/user/register',  
+            const response = await axios.delete(`${BASE_URL}/user/logout`,  
             {withCredentials: true});
             if (response.status === 200) {
-                // remove user from the state
-                const emptyUser:UserInterface = {
-                    id: 0,
-                    email: '', 
-                    first_name: '',
-                    family_name: '',
-                    username: ''
-                }
-                useSetUserHook(emptyUser);
-                navigate('/'); 
+                // remove user from the localStorage
+                localStorage.deleteItem('user_id');
+                localStorage.deleteItem('user_email');
+                localStorage.deleteItem('user_first_name');
+                localStorage.deleteItem('user_family_name');
+                localStorage.deleteItem('user_username');
             }
             
         } catch (error) {
             console.log(error);
-            
         }
-
+        navigate('/'); 
     }
     return (
         <>
-        {console.log(useSelectUserHook)}
         <button onClick={logout}>Logout</button>
-        <h1>{useSelectUserHook.first_name} {useSelectUserHook.family_name}, welcome to your Dashboard!</h1>
-
+        <h1>{user_first_name} {user_family_name}, welcome to your Dashboard!</h1>
         </>
     )
 }

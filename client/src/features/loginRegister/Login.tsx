@@ -2,6 +2,7 @@ import { Link, useNavigate} from 'react-router-dom'
 import { useRef, useState } from 'react'
 import axios from "axios";
 import {useSetUser} from './state/hooks'
+import { BASE_URL } from '../../model/baseURL'
 
 const Login = () => {
 
@@ -19,10 +20,7 @@ const Login = () => {
         const username=usernameRef.current?.value;
         const password= passwordRef.current?.value;
         try {
-            // for development !!!!!!!!!!!!
-            // const response = await axios.post('http://localhost:3001/user/login',
-            // for deployment !!!!!!!!!!!!!!
-            const response = await axios.post('/user/login',  
+            const response = await axios.post(`${BASE_URL}/user/login`,  
                 {
                     username, password
                 },
@@ -30,6 +28,11 @@ const Login = () => {
             // if login was successful, show the personal greeting message and after 1 second navigate to dashboard
             if (response.status === 200) {
                     useSetUserHook(response.data.user);
+                    localStorage.setItem('user_id', response.data.user.id);
+                    localStorage.setItem('user_email', response.data.user.email);
+                    localStorage.setItem('user_first_name', response.data.user.first_name);
+                    localStorage.setItem('user_family_name', response.data.user.family_name);
+                    localStorage.setItem('user_username', response.data.user.username);
                     navigate('/dashboard');  
                 }
             

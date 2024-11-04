@@ -1,6 +1,7 @@
 import { useEffect, useState, ReactNode } from "react";
 import axios from "axios";
 import { Link } from 'react-router-dom'
+import { BASE_URL } from '../../model/baseURL'
 
 interface AuthProps {
   children: ReactNode;
@@ -15,10 +16,7 @@ const Auth: React.FC<AuthProps>  = ({ children}) => {
 
   const verify = async () => {
     try {
-      // for development !!!!!!!!!!!!
-      // const response = await axios.get("http://localhost:3001/user/auth", {
-      // for deployment !!!!!!!!!!!!!!
-      const response = await axios.post('/user/auth', {
+      const response = await axios.get(`${BASE_URL}/user/auth`, {
         withCredentials: true,
       });      
       if (response.status === 200) {
