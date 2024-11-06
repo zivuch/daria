@@ -29,7 +29,6 @@ module.exports = {
       throw error;
     }
   },
-  // Should be by username!!!
   getUserByUsername: async (username) => {
     try {
       const user = await db("users")

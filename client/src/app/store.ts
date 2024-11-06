@@ -1,8 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import userReducer from "../features/loginRegister/state/slice"
-import { UserReducerState } from "../features/loginRegister/state/slice"
+import booksReducer from '../features/dashboard/state/slice'
+import { BooksReducerState } from "../features/dashboard/state/slice";
 
-const combineReducersApp = combineReducers({ userReducer });
+const combineReducersApp = combineReducers({ booksReducer });
 
 const store = configureStore({
   reducer: combineReducersApp,
@@ -24,5 +24,5 @@ export type AppDispatch = AppStore["dispatch"];
 export default store;
 
 export type ExplicitAppState = {
-  userReducer: UserReducerState;
+  booksReducer: BooksReducerState;
 };

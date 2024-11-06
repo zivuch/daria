@@ -1,36 +1,91 @@
-// import { useSelectUser} from '../loginRegister/state/hooks'
-import {useNavigate} from 'react-router-dom'
+import Logout from '../loginRegister/Logout';
+import {useEffect, useState} from 'react'
 import axios from "axios";
 import { BASE_URL } from '../../model/baseURL'
+import { useNavigate, Link } from 'react-router-dom';
+import {useSetBooks, useSelectorBooksFinished, useSelectorBooksReading, useSelectorBooksWantToRead} from './state/hooks'
+
+
 
 const Dashboard = () => {
-    const navigate = useNavigate();
-    // const useSelectUserHook = useSelectUser();
+    // get user data from localStorage
     const user_first_name = localStorage.getItem('user_first_name');
     const user_family_name = localStorage.getItem('user_family_name');
+    const user_id = localStorage.getItem('user_id');
+    // state for displaying error message
+    const [message, setMessage] = useState('');
+    const useSetBooksHook = useSetBooks();
+    const navigate = useNavigate();
+    const booksReading = useSelectorBooksReading();
+    const booksWantToRead = useSelectorBooksWantToRead();
+    const booksFinished = useSelectorBooksFinished();
 
-    const logout = async():Promise<void> => {
+    // fetch all books for the user
+    const fecthAllBooks = async ():Promise<void>  =>{
         try {
-            const response = await axios.delete(`${BASE_URL}/user/logout`,  
-            {withCredentials: true});
-            if (response.status === 200) {
-                // remove user from the localStorage
-                localStorage.deleteItem('user_id');
-                localStorage.deleteItem('user_email');
-                localStorage.deleteItem('user_first_name');
-                localStorage.deleteItem('user_family_name');
-                localStorage.deleteItem('user_username');
-            }
-            
-        } catch (error) {
+            const response = await axios.post(`${BASE_URL}/books/allbooks`,  
+                {
+                 user_id: user_id   
+                },
+                {withCredentials: true});
+            //set the books state to the response data
+            useSetBooksHook(response.data);
+        } catch (error:any) {
             console.log(error);
+            // show the error message
+            setMessage(error.message);
         }
-        navigate('/'); 
     }
+
+    // fetch all books on component mount
+    useEffect(() => {
+        fecthAllBooks();
+    },[])
+
     return (
         <>
-        <button onClick={logout}>Logout</button>
-        <h1>{user_first_name} {user_family_name}, welcome to your Dashboard!</h1>
+        <nav>
+            <Logout/>
+        </nav>
+
+        <h3>{user_first_name} {user_family_name}, welcome to your Dashboard!</h3>
+
+        {/* if there are books with status = Reading, display them */}
+        {(booksReading.length != 0)? (
+            <div>
+            <div>Currently reading:</div>
+            { booksReading.map(book => (
+                <Link to={`/book/${book.id}`}><img key={book.id} src={book.image} alt={book.title} /></Link>
+            )) }
+            <button onClick={()=>navigate('/books/reading')}>See all</button>
+            </div>) 
+        :<></>}
+        {/* if there are books with status = Finished, display them */}
+        {(booksFinished.length != 0)? (
+            <div>
+            <div>Currently reading:</div>
+            { booksFinished.map(book => (
+                <Link to={`/book/${book.id}`}><img key={book.id} src={book.image} alt={book.title} /></Link>
+            )) }
+            <button onClick={()=>navigate('/books/finished')}>See all</button>
+            </div>) 
+        :<></>}
+
+        {/* if there are books with status = WantToRead, display them */}
+         {(booksWantToRead.length != 0)? (
+            <div>
+            <div>Currently reading:</div>
+            { booksWantToRead.map(book => ( 
+                <Link to={`/book/${book.id}`}><img key={book.id} src={book.image} alt={book.title} /></Link>
+            )) }
+            <button onClick={()=>navigate('/books/wanttoread')}>See all</button>
+            </div>) 
+        :<></>} 
+
+        <Link to='/books/search'><button>Add a book</button></Link>
+
+        {message}
+
         </>
     )
 }
