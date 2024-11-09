@@ -1,9 +1,9 @@
-import {useParams, Link} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import { useState, useEffect} from 'react';
 import axios from "axios";
 import { BASE_URL } from '../../model/baseURL';
 import { emptyBookExpanded } from '../../model/types';
-import Logout from '../loginRegister/Logout';
+import Navigation from '../navigation/Navigation';
 
 const BookByID = () => {
     // get book id from params
@@ -90,10 +90,7 @@ const BookByID = () => {
 
     return (
         <>
-        <nav>
-            <Link to='/dashboard'><button>Back</button></Link>
-            <Logout/>
-        </nav>
+        <Navigation/>
         {(message.length === 0)? 
         (book.status === "WantToRead")? wantToRead()
         : (book.status === "Reading")?  reading()

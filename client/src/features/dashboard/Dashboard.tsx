@@ -21,7 +21,7 @@ const Dashboard = () => {
     const booksFinished = useSelectorBooksFinished();
 
     // fetch all books for the user
-    const fecthAllBooks = async ():Promise<void>  =>{
+    const fetchAllBooks = async ():Promise<void>  =>{
         try {
             const response = await axios.post(`${BASE_URL}/books/allbooks`,  
                 {
@@ -39,7 +39,7 @@ const Dashboard = () => {
 
     // fetch all books on component mount
     useEffect(() => {
-        fecthAllBooks();
+        fetchAllBooks();
     },[])
 
     return (
@@ -63,7 +63,7 @@ const Dashboard = () => {
         {/* if there are books with status = Finished, display them */}
         {(booksFinished.length != 0)? (
             <div>
-            <div>Currently reading:</div>
+            <div>Finished:</div>
             { booksFinished.map(book => (
                 <Link to={`/book/${book.id}`}><img key={book.id} src={book.image} alt={book.title} /></Link>
             )) }
@@ -74,7 +74,7 @@ const Dashboard = () => {
         {/* if there are books with status = WantToRead, display them */}
          {(booksWantToRead.length != 0)? (
             <div>
-            <div>Currently reading:</div>
+            <div>Want to read::</div>
             { booksWantToRead.map(book => ( 
                 <Link to={`/book/${book.id}`}><img key={book.id} src={book.image} alt={book.title} /></Link>
             )) }
