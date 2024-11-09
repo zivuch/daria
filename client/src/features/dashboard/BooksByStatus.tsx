@@ -1,9 +1,10 @@
-import Logout from '../loginRegister/Logout';
-import {Link, useParams} from 'react-router-dom';
+
+import {useParams, Link} from 'react-router-dom';
 import { useState, useEffect} from 'react';
 import axios from "axios";
 import { BASE_URL } from '../../model/baseURL';
 import {useSetBooks, useSelectorAllBooks} from './state/hooks'
+import Navigation from '../navigation/Navigation';
 
 
 const BooksByStatus = () => {
@@ -56,14 +57,12 @@ const BooksByStatus = () => {
     
     return (
         <>
-        <nav>
-            <Link to='/dashboard'><button>Back</button></Link>
-            <Logout/>
-        </nav>
+        <Navigation/>
         <h2>{heading}</h2>
         { useSelectorAllBooks()?.map(book => (
+
         <div>
-        <img key={book.id} src={book.image} alt={book.title} />
+        <Link to={`/book/${book.id}`}><img key={book.id} src={book.image} alt={book.title} /></Link>
         <p>{book.title}</p>
         <p>{book.authors}</p>
         </div> )) }

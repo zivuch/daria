@@ -8,12 +8,6 @@ const store = configureStore({
   reducer: combineReducersApp,
 });
 
-// export type StoreStateType = ReturnType<typeof store.getState>;
-// export type StoreDispatchType = typeof store.dispatch;
-
-// export const useAppDispatch: () => StoreDispatchType = useDispatch;
-// export const useAppSelector: TypedUseSelectorHook<StoreStateType> = useSelector
-
 // Get the type of our store variable
 export type AppStore = typeof store;
 // Infer the `RootState` and `AppDispatch` types from the store itself

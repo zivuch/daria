@@ -25,15 +25,14 @@ export const bookSmallEmpty:bookSmall = {
 }
 
 export interface bookExpanded {
-    authors: string | null,
+    authors:  string | null| string[],
     booktype: string | null,
-    categories: string | null,
+    categories: string | null | string[],
     date_finish: string | null,
     date_start: string | null,
     description: string | null,
     id: number,
     image: string,
-    isbn: string | null,
     language: string | null,
     pagecount: number | null,
     pagetype: string | null,
@@ -41,19 +40,18 @@ export interface bookExpanded {
     reading_progress: number | null,
     score: number | null,
     status: string | null,
-    title: string | null,
+    title: string,
 }
 
 export const emptyBookExpanded: bookExpanded= {
-    authors: null,
+    authors: [''],
     booktype: null,
-    categories: null,
+    categories: [''],
     date_finish: null,
     date_start: null,
     description: null,
-    id: 0,
+    id: -1,
     image: '',
-    isbn:  null,
     language: null,
     pagecount: null,
     pagetype:  null,
@@ -61,5 +59,20 @@ export const emptyBookExpanded: bookExpanded= {
     reading_progress: null,
     score: null,
     status: null,
-    title: null,
+    title: '',
+}
+
+export interface SingleBookCompressed {
+    id: string
+    title: string
+    authors: string[]
+    image: string | undefined
+}
+
+export const BooksCompressedEmpty = {
+            id: '',
+            title: '',
+            authors: [],
+            image: ''
+        
 }
