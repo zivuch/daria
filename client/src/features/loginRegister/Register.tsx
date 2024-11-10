@@ -17,6 +17,7 @@ const Register = () => {
     // using useNavigate hook to navigate to Login page after registration
     const navigate = useNavigate();
 
+    // function to check if the user is at least 12 years old and didn't set their birth date as date in the future
     const checkBirthDate = (date_of_birth:string|undefined):boolean => {
         if (date_of_birth){
         const currentDate = new Date();

@@ -9,10 +9,15 @@ const AddBook = () => {
     // state for displaying error message
     const [message, setMessage] = useState('');
     const [book, setBook] = useState(emptyBookExpanded);
+    const [status, setStatus] = useState('');
     const { id } = useParams();
     const navigate = useNavigate();
     const rateRef = useRef<HTMLInputElement>(null);
+    const date_startRef = useRef<HTMLInputElement>(null);
+    const date_finishRef = useRef<HTMLInputElement>(null);
 
+
+    // fetch all the information about the book from Google Book API on component mount
     const fetchBook = async ():Promise<void>  =>{
         try {
             const response = await axios.get(`${BASE_URL}/books/search/${id}`,  
@@ -53,27 +58,49 @@ const AddBook = () => {
 
     // post book, show the success message and navitage to Dashboard
     const addBookToDB = () => {
-        // request to add the book
-        postBook();
-        // show the success message and navigate to Dashboard after 1.5 seconds
-        setTimeout(function() {
-            navigate('/dashboard');
-          }, 1500); 
+        // save information about the finished book
+
+        if (status === "Finished") {
+            const score = Number(rateRef.current?.value);
+            const date_start = date_startRef.current?.value.toString();
+            if (date_start) {}
+            const date_finish = date_finishRef.current?.value.toString();
+            // const currentDate = new Date();
+
+            // check if score is valid
+            if ((score) && (score > 5)) { setMessage('Score can not be higher than 5')}
+            else if ((score) && (score < 0)) {setMessage('Score can not be lower than 0')}
+            // check if start date is valid
+            // else if (currentDate.getTime() < new Date(date_start).getTime()) 
+            else{
+            book.score = score;
+            book.date_start = date_start;
+            book.date_finish = date_finish;
+            // request to add the book
+            postBook();
+            // show the success message and navigate to Dashboard after 1.5 seconds
+            setTimeout(function() {
+                navigate('/dashboard');
+            }, 1500); 
+        }
+        }
+
     }
 
   
     const statusFinishedGetAdditionalInfo = () => {
+        book.status = 'Finished';
         return (
             <div>
+                <p>When did you start reading this book?</p>
+                <input type="date" ref={date_startRef}/>
+                <p>When did you finish reading this book?</p>
+                <input type="date" ref={date_finishRef}/>
                 <p>How would you rate this book?</p>
                 <input ref={rateRef}placeholder="0..5"/>
                 <button onClick={addBookToDB}>Save</button>
             </div>
         )
-    }
-
-    const changeStatusToFinished = () => {
-        book.status = 'Finished';
     }
 
 
@@ -90,22 +117,18 @@ const AddBook = () => {
                 <h4>{book.authors}</h4>
                 <p>{book.categories? (<>Categories: {book.categories}</>):<></> }</p>
                 <p>{book.language? (<>Language: {book.language}</>):<></> }</p>
-                <p>{book.description? (<>Description: {book.description}</>):<></> }</p>
+                <p >{book.description? (<>Description: {book.description}</>):<></> }</p>
                 {}
                 <button onClick={()=>{
                     book.status = 'WantToRead';
                     addBookToDB();
                 }}>Add to the reading list</button>
                 <button >Start reading now</button>
-                <button onClick={changeStatusToFinished}>Mark as finished</button>
+                <button onClick={()=>{setStatus('Finished')}}>Mark as finished</button>
             </div>
 
         )
     }
-    
-
-
-
 
     return (
         <>
@@ -115,7 +138,7 @@ const AddBook = () => {
         <Logout/>
     </nav>
     {(book.id === 0)? renderBook():<></> }
-    {(book.status === 'Finished')? statusFinishedGetAdditionalInfo() :<></>}
+    {(status === 'Finished')? statusFinishedGetAdditionalInfo() :<></>}
     {message}
         </>
     )

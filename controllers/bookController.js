@@ -19,9 +19,9 @@ const compressBooks = (books) => {
 // Return the compressed single book
 const compressedSingleBook = (book) => {
     const result = {
-        authors: book.volumeInfo.authors,
+        authors: book.volumeInfo.authors.join(',  '),
         booktype: "Physical",
-        categories: book.volumeInfo.categories,
+        categories: book.volumeInfo.categories.join(', '),
         date_finish: null,
         date_start: null,
         // deleting all html tags from the book description
