@@ -16,9 +16,13 @@ const Dashboard = () => {
     const [message, setMessage] = useState('');
     const useSetBooksHook = useSetBooks();
     const navigate = useNavigate();
-    const booksReading = useSelectorBooksReading();
-    const booksWantToRead = useSelectorBooksWantToRead();
-    const booksFinished = useSelectorBooksFinished();
+    let booksReading = useSelectorBooksReading();
+    // show only the first 5 book from the list
+    if (booksReading.length > 5) {booksReading = booksReading.slice(0, 5);}
+    let booksWantToRead = useSelectorBooksWantToRead();
+    if (booksWantToRead.length > 5) {booksWantToRead = booksWantToRead.slice(0, 5);}
+    let booksFinished = useSelectorBooksFinished();
+    if (booksFinished.length > 5) {booksFinished = booksFinished.slice(0, 5);}
 
     // fetch all books for the user
     const fetchAllBooks = async ():Promise<void>  =>{

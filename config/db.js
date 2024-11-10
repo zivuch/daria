@@ -1,7 +1,7 @@
 const knex = require('knex');
 require('dotenv').config();
 
-const {PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT} = process.env;
+const {PGHOST, PGDATABASE, PGUSER, PGPASSWORD, PGPORT, PROD} = process.env;
 
 module.exports = {
     db: knex({
@@ -12,7 +12,7 @@ module.exports = {
             user: PGUSER,
             password:  PGPASSWORD,
             port: PGPORT,
-            ssl: {rejectUnauthorized:false},
+            ssl:PROD? true : {rejectUnauthorized:false},
         },
 
     })
